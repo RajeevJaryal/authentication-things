@@ -24,7 +24,7 @@ const AuthForm = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     setIsLoading(true);
-
+    
     let url;
 
     if (isLogin) {
@@ -51,7 +51,7 @@ const AuthForm = () => {
       if (!response.ok) {
         throw new Error(data.error.message || "Authentication failed!");
       }
-
+      
       authCtx.login(data.idToken);
     } catch (error) {
       alert(error.message);

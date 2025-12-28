@@ -1,17 +1,63 @@
-import classes from './ProfileForm.module.css';
+import { useContext, useRef } from "react";
+import classes from "./ProfileForm.module.css";
+import AuthContext from "../store/AuthContex";
 
 const ProfileForm = () => {
+  const newPasswordInputRef = useRef();
+  const authCtx = useContext(AuthContext);
+
+  const passwordChangeHandler = async (event) => {
+    event.preventDefault();
+
+    const enteredPass = newPasswordInputRef.current.value;
+
+    if (enteredPass.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyD_l7c84umFPHaOHg0RAHwrIG8Dphwuo_8",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idToken: authCtx.token,
+          newPassword: enteredPass,
+          returnSecureToken: true,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error.message);
+      return;
+    }
+
+    alert("Password changed successfully. Please login again.");
+    authCtx.logout();
+  };
+
   return (
-    <form className={classes.form}>
+    <form onSubmit={passwordChangeHandler} className={classes.form}>
       <div className={classes.control}>
-        <label htmlFor='new-password'>New Password</label>
-        <input type='password' id='new-password' />
+        <label htmlFor="new-password">New Password</label>
+        <input
+          type="password"
+          id="new-password"
+          ref={newPasswordInputRef}
+          required
+        />
       </div>
       <div className={classes.action}>
         <button>Change Password</button>
       </div>
     </form>
   );
-}
+};
 
 export default ProfileForm;
