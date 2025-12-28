@@ -17,7 +17,7 @@ const ProfileForm = () => {
     }
 
     const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyD_l7c84umFPHaOHg0RAHwrIG8Dphwuo_8",
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=",
       {
         method: "POST",
         headers: {
