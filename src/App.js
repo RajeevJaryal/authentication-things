@@ -13,26 +13,20 @@ function App() {
   return (
     <Layout>
       <Switch>
-        {authCtx.isLoggedIn && (
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-        )}
+        <Route path="/" exact>
+          {authCtx.isLoggedIn ? <HomePage /> : <Redirect to="/auth" />}
+        </Route>
 
-        {!authCtx.isLoggedIn && (
-          <Route path="/auth">
-            <AuthPage />
-          </Route>
-        )}
+        <Route path="/auth">
+          {!authCtx.isLoggedIn ? <AuthPage /> : <Redirect to="/" />}
+        </Route>
 
-        {authCtx.isLoggedIn && (
-          <Route path="/profile">
-            <UserProfile />
-          </Route>
-        )}
+        <Route path="/profile">
+          {authCtx.isLoggedIn ? <UserProfile /> : <Redirect to="/auth" />}
+        </Route>
 
         <Route path="*">
-          <Redirect to={authCtx.isLoggedIn ? "/" : "/auth"} />
+          <Redirect to="/" />
         </Route>
       </Switch>
     </Layout>

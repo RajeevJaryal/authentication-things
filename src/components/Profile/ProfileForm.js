@@ -2,7 +2,7 @@ import { useRef, useContext } from "react";
 import classes from "./ProfileForm.module.css";
 import AuthContext from "../store/AuthContex";
 
-const FIREBASE_API_KEY = "AIzaSyD_l7c84umFPHaOHg0RAHwrIG8Dphwuo_8";
+const FIREBASE_API_KEY = "";
 
 const ProfileForm = () => {
   const newPasswordInputRef = useRef();
@@ -36,9 +36,8 @@ const ProfileForm = () => {
       if (!response.ok) {
         throw new Error(data.error.message || "Password change failed!");
       }
-
       authCtx.login(data.idToken);
-      alert("Password changed successfully! Please use your new password to login.");
+      alert("Password changed successfully!");
     } catch (error) {
       alert(error.message || "Something went wrong. Please try again.");
     }
@@ -48,7 +47,12 @@ const ProfileForm = () => {
     <form onSubmit={passwordChangeHandler} className={classes.form}>
       <div className={classes.control}>
         <label htmlFor="new-password">New Password</label>
-        <input type="password" id="new-password" ref={newPasswordInputRef} required />
+        <input
+          type="password"
+          id="new-password"
+          ref={newPasswordInputRef}
+          required
+        />
       </div>
       <div className={classes.action}>
         <button>Change Password</button>

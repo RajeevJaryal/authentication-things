@@ -2,7 +2,7 @@ import { useState, useRef, useContext } from "react";
 import classes from "./AuthForm.module.css";
 import AuthContext from "../store/AuthContex";
 
-const FIREBASE_API_KEY = "AIzaSyD_l7c84umFPHaOHg0RAHwrIG8Dphwuo_8";
+const FIREBASE_API_KEY = "";
 
 const AuthForm = () => {
   const emailInputRef = useRef();
@@ -24,21 +24,15 @@ const AuthForm = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     setIsLoading(true);
-    
-    let url;
 
-    if (isLogin) {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`;
-    } else {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`;
-    }
+    const url = isLogin
+      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`
+      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`;
 
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: enteredEmail,
           password: enteredPassword,
@@ -51,9 +45,8 @@ const AuthForm = () => {
       if (!response.ok) {
         throw new Error(data.error.message || "Authentication failed!");
       }
-      
-      authCtx.login(data.idToken);
 
+      authCtx.login(data.idToken);
     } catch (error) {
       alert(error.message);
     }
@@ -73,12 +66,7 @@ const AuthForm = () => {
 
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
+          <input type="password" id="password" required ref={passwordInputRef} />
         </div>
 
         <div className={classes.actions}>
