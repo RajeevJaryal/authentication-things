@@ -2,7 +2,7 @@ import { useRef, useContext } from "react";
 import classes from "./ProfileForm.module.css";
 import AuthContext from "../store/AuthContex";
 
-const FIREBASE_API_KEY = "";
+const FIREBASE_API_KEY = "AIzaSyD_l7c84umFPHaOHg0RAHwrIG8Dphwuo_8";
 
 const ProfileForm = () => {
   const newPasswordInputRef = useRef();
